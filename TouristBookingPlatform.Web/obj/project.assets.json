@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\My_IT_Projects\\.NET\\TouristBookingPlatform.API\\TouristBookingPlatform.Web\\TouristBookingPlatform.Web.csproj",
+      "projectUniqueName": "C:\\My_IT_Projects\\.NET\\TouristBookingPlatform\\TouristBookingPlatform.Web\\TouristBookingPlatform.Web.csproj",
       "projectName": "TouristBookingPlatform.Web",
-      "projectPath": "C:\\My_IT_Projects\\.NET\\TouristBookingPlatform.API\\TouristBookingPlatform.Web\\TouristBookingPlatform.Web.csproj",
+      "projectPath": "C:\\My_IT_Projects\\.NET\\TouristBookingPlatform\\TouristBookingPlatform.Web\\TouristBookingPlatform.Web.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "C:\\My_IT_Projects\\.NET\\TouristBookingPlatform.API\\TouristBookingPlatform.Web\\obj\\",
+      "outputPath": "C:\\My_IT_Projects\\.NET\\TouristBookingPlatform\\TouristBookingPlatform.Web\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

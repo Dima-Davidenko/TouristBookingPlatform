@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Json;
-using Microsoft.Extensions.Configuration;
 using TouristBookingPlatform.Web.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace TouristBookingPlatform.Web.Services
 {
@@ -18,13 +18,47 @@ namespace TouristBookingPlatform.Web.Services
 
         public async Task<IEnumerable<Event>> GetEventsAsync()
         {
-            var response = await _httpClient.GetFromJsonAsync<IEnumerable<Event>>($"{_apiBaseUrl}/api/events");
-            return response ?? new List<Event>();
+            const int maxRetries = 3;
+            const int delayMilliseconds = 1000;
+
+            for (int attempt = 1; attempt <= maxRetries; attempt++)
+            {
+                try
+                {
+                    var response = await _httpClient.GetAsync($"{_apiBaseUrl}/api/events");
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var events = await response.Content.ReadFromJsonAsync<IEnumerable<Event>>();
+                        return events ?? new List<Event>();
+                    }
+
+                    // Only retry on 500-level errors
+                    if ((int)response.StatusCode >= 500 && (int)response.StatusCode < 600)
+                    {
+                        if (attempt < maxRetries)
+                            await Task.Delay(delayMilliseconds);
+                    }
+                    else
+                    {
+                        // For non-500 errors, break and throw immediately
+                        response.EnsureSuccessStatusCode();
+                    }
+                }
+                catch (HttpRequestException ex) when (attempt < maxRetries)
+                {
+                    // Optionally log the error here
+                    await Task.Delay(delayMilliseconds);
+                }
+            }
+
+            throw new Exception("Failed to retrieve events after multiple attempts.");
         }
 
         public async Task CreateEventAsync(Event ev)
         {
-            await _httpClient.PostAsJsonAsync($"{_apiBaseUrl}/api/events", ev);
+            var response = await _httpClient.PostAsJsonAsync($"{_apiBaseUrl}/api/events", ev);
+            response.EnsureSuccessStatusCode(); // optional: add retry here too if needed
         }
     }
 }

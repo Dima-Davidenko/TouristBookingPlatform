@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "TouristBookingPlatform.API\\TouristBookingPlatform.API.csproj",
+        "Action": "StartWithoutDebugging"
+      },
+      {
+        "Path": "TouristBookingPlatform.Web\\TouristBookingPlatform.Web.csproj",
+        "Action": "StartWithoutDebugging"
+      }
+    ]
+  }
+]

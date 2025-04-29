@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "jusGQozaaTXP5fPOtyDe5v/P0D1DZ0gzkCnSUlDkAHE=",
+  "Source": "TouristBookingPlatform.API",
+  "BasePath": "_content/TouristBookingPlatform.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

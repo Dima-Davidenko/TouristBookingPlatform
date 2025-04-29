@@ -28,7 +28,7 @@ namespace TouristBookingPlatform.Web.Controllers
                 return RedirectToAction("Index", "Admin");
             }
 
-            ViewBag.Error = "Invalid credentials.";
+            ViewBag.Error = "Invalid credentials. Use admin/admin";
             return View();
         }
 

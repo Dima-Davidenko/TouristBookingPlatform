@@ -60,5 +60,23 @@ namespace TouristBookingPlatform.Web.Services
             var response = await _httpClient.PostAsJsonAsync($"{_apiBaseUrl}/api/events", ev);
             response.EnsureSuccessStatusCode(); // optional: add retry here too if needed
         }
+
+        public async Task<Event?> GetEventByIdAsync(int id)
+        {
+            return await _httpClient.GetFromJsonAsync<Event>($"{_apiBaseUrl}/api/events/{id}");
+        }
+
+        public async Task UpdateEventAsync(Event ev)
+        {
+            var response = await _httpClient.PutAsJsonAsync($"{_apiBaseUrl}/api/events/{ev.Id}", ev);
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task DeleteEventAsync(int id)
+        {
+            var response = await _httpClient.DeleteAsync($"{_apiBaseUrl}/api/events/{id}");
+            response.EnsureSuccessStatusCode();
+        }
+
     }
 }

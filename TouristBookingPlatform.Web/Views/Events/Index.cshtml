@@ -1,31 +1,57 @@
 ﻿@model IEnumerable<TouristBookingPlatform.Web.Models.Event>
 
 @{
-    ViewData["Title"] = "Events";
+    ViewData["Title"] = "Tourist Events";
 }
 
-<h1>Upcoming Tourist Events</h1>
+<h1>Available Events</h1>
 
-<a class="btn btn-success mb-3" asp-action="Create">+ Create New Event</a>
+@foreach (var ev in Model)
+{
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">@ev.Name</h5>
+            <p class="card-text">
+                <strong>Location:</strong> @ev.Location <br />
+                <strong>Date:</strong> @ev.Date.ToString("yyyy-MM-dd HH:mm") <br />
+                <strong>Price:</strong> @ev.Price.ToString("C")
+            </p>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Location</th>
-            <th>Date</th>
-            <th>Price</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var ev in Model)
-        {
-            <tr>
-                <td>@ev.Name</td>
-                <td>@ev.Location</td>
-                <td>@ev.Date.ToString("yyyy-MM-dd")</td>
-                <td>@ev.Price.ToString("C")</td>
-            </tr>
-        }
-    </tbody>
-</table>
+            <button class="btn btn-outline-primary reserve-btn" data-event-id="@ev.Id">Reserve</button>
+
+            <div class="reservation-form mt-3 d-none" id="form-@ev.Id">
+                <form onsubmit="handleReservation(event, @ev.Id)">
+                    <div class="mb-2">
+                        <input type="text" name="name" class="form-control" placeholder="Your Name" required />
+                    </div>
+                    <div class="mb-2">
+                        <input type="email" name="email" class="form-control" placeholder="Your Email" required />
+                    </div>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </form>
+                <div class="confirmation mt-2 text-success d-none">
+                    Thank you! Our manager will contact you soon.
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        const handleReservation = (e, eventId) => {
+            e.preventDefault();
+            const form = document.querySelector(`#form-${eventId}`);
+            form.querySelector('form').classList.add('d-none');
+            form.querySelector('.confirmation').classList.remove('d-none');
+        };
+
+        document.querySelectorAll('.reserve-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const eventId = btn.getAttribute('data-event-id');
+                const form = document.querySelector(`#form-${eventId}`);
+                form.classList.toggle('d-none');
+            });
+        });
+    </script>
+}

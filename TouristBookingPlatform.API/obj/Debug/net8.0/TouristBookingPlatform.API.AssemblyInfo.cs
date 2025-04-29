@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TouristBookingPlatform.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7fe30f393703d3f17fa5fde12131ffdad94dfb1a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f39e66fd7ce6a959dc5cf32cc9413d6faa3c7a8e")]
 [assembly: System.Reflection.AssemblyProductAttribute("TouristBookingPlatform.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TouristBookingPlatform.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

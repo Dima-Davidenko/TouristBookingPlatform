@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TouristBookingPlatform.Web.Services;
 using TouristBookingPlatform.Web.Models;
-
+using TouristBookingPlatform.Web.Services;
 
 namespace TouristBookingPlatform.Web.Controllers
 {
@@ -19,24 +18,5 @@ namespace TouristBookingPlatform.Web.Controllers
             var events = await _eventService.GetEventsAsync();
             return View(events);
         }
-
-        // Display Create Event Form
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // Handle Form POST Submission
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Event ev)
-        {
-            if (!ModelState.IsValid)
-                return View(ev);
-
-            await _eventService.CreateEventAsync(ev);
-            return RedirectToAction(nameof(Index));
-        }
-
     }
 }

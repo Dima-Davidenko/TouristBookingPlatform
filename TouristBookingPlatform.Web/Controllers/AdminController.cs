@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TouristBookingPlatform.Web.Services;
 using TouristBookingPlatform.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace TouristBookingPlatform.Web.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         private readonly EventService _eventService;

@@ -6,16 +6,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
@@ -27,5 +24,19 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapMethods("/health", new[] { "HEAD", "GET" }, async (AppDbContext db, HttpContext context) =>
+{
+    try
+    {
+        var any = await db.Events.AnyAsync();
+        return Results.Ok();
+    }
+    catch (Exception ex)
+    {
+        return Results.StatusCode(503);
+    }
+});
+
 
 app.Run();

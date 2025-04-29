@@ -6,6 +6,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient<EventService>();
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+builder.Services.AddAuthentication("CookieAuth")
+    .AddCookie("CookieAuth", options =>
+    {
+        options.LoginPath = "/Account/Login";
+    });
+
+builder.Services.AddAuthorization();
+
 
 
 var app = builder.Build();
@@ -23,6 +31,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

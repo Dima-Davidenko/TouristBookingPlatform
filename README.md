@@ -1,136 +1,125 @@
 
-# Tourist Booking Platform
+# 🌍 Tourist Booking Platform
 
-This is a **full-stack .NET solution** that allows users to view and manage tourist events.  
-The solution consists of:
+[![Build Status](https://github.com/Dima-Davidenko/TouristBookingPlatform/actions/workflows/deploy-api.yml/badge.svg)](https://github.com/Dima-Davidenko/TouristBookingPlatform/actions)
+[![Deploy Frontend](https://github.com/Dima-Davidenko/TouristBookingPlatform/actions/workflows/deploy-frontend.yml/badge.svg)](https://github.com/Dima-Davidenko/TouristBookingPlatform/actions)
 
-- ✅ **Backend**: RESTful API with ASP.NET Core + EF Core
-- ✅ **Frontend**: ASP.NET Core MVC application
-- ✅ **Database**: SQL Server (EF Core code-first)
-
----
-
-## 📦 Solution Structure
-
-```
-TouristBookingPlatform/
-├── TouristBookingPlatform.sln           # Solution file
-├── TouristBookingPlatform.API/          # Backend Web API
-├── TouristBookingPlatform.Web/          # Frontend MVC App
-├── .github/workflows/                   # GitHub Actions (CI/CD)
-└── README.md                            # This file
-```
+A full-stack .NET Core web application for managing and reserving tourist events.  
+Built as a pet project to demonstrate backend, frontend, database, and DevOps skills for a Junior .NET Developer role.
 
 ---
 
-## 🔧 Technologies Used
+## 🧭 Project Overview
+
+This application allows:
+- Visitors to browse tourist events and make reservation requests
+- Admins to manage events (CRUD) via a protected dashboard
+
+The app is **deployed live on Azure** and powered by **GitHub Actions CI/CD**.
+
+---
+
+## 🛠️ Technologies Used
 
 | Layer     | Tech Stack                                      |
 |-----------|--------------------------------------------------|
-| Backend   | ASP.NET Core Web API (.NET 8), C#               |
-| Frontend  | ASP.NET Core MVC (.NET 8), Razor Views          |
-| Database  | SQL Server Express (LocalDB), EF Core ORM       |
-| DevOps    | GitHub Actions, Azure App Services              |
+| Backend   | ASP.NET Core Web API (C#), Entity Framework Core |
+| Frontend  | ASP.NET Core MVC, Razor Views, Bootstrap         |
+| Database  | SQL Server (LocalDB for dev, Azure SQL for prod) |
+| DevOps    | GitHub Actions, Azure App Services               |
 
 ---
 
-## 🎯 Features
+## 💡 Features
 
-### ✅ Backend API (`TouristBookingPlatform.API`)
-- RESTful API for managing tourist events
-- Built with ASP.NET Core + Entity Framework Core
-- Swagger UI for testing endpoints
-- Full CRUD operations:
-  - `GET /api/events`
-  - `POST /api/events`
-  - `PUT /api/events/{id}`
-  - `DELETE /api/events/{id}`
+### ✅ Public User View
+- View list of upcoming tourist events (`/Events`)
+- Click **Reserve** to submit name + email
+- Simple inline confirmation
 
-### ✅ Frontend Web App (`TouristBookingPlatform.Web`)
-- MVC pattern with Razor Pages
-- Bootstrap-styled UI
-- Event list and creation form
-- Calls backend API via HttpClient
+### 🔒 Admin Panel (`/Admin`)
+- Login required: **username** `admin`, **password** `admin`
+- Create / Edit / Delete events
+- List events in a Bootstrap-styled table
 
-### ✅ Database
-- Code-first EF Core migrations
-- SQL Server Express (LocalDB for development)
-- `AppDbContext` with `Events` table
-- Connection string defined in `appsettings.json`
+### ✨ Developer Tools
+- Retry logic for API calls
+- Separate environments: `Development` vs `Production`
+- Clean separation of user vs admin routes
 
 ---
 
-## 🚀 How to Run Locally
+## 🚀 Live Demo
+
+| Service  | URL |
+|----------|-----|
+| Frontend | https://touristbooking-web.azurewebsites.net |
+| Backend  | https://tourist-booking-service.azurewebsites.net/swagger |
+| Admin    | https://touristbooking-web.azurewebsites.net/Admin |
+| Project Info Page | https://touristbooking-web.azurewebsites.net/Project/About |
+
+---
+
+## 🔧 How to Run Locally
 
 ### Prerequisites
-- Visual Studio 2022+
-- .NET 8 SDK
-- SQL Server Express / LocalDB
-- Git
 
-### 1. Clone the repository
+- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+- [Visual Studio 2022+](https://visualstudio.microsoft.com/)
+- [SQL Server Express / LocalDB](https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/sql-server-express-localdb)
+
+### Steps
+
 ```bash
-git clone https://github.com/yourusername/TouristBookingPlatform.git
+git clone https://github.com/Dima-Davidenko/TouristBookingPlatform.git
 cd TouristBookingPlatform
+
+# Apply DB migrations
+dotnet ef database update --project TouristBookingPlatform.API
+
+# Run the app (both projects in Visual Studio or with dotnet run)
 ```
 
-### 2. Open the solution
-- Open `TouristBookingPlatform.sln` in Visual Studio
-- Set **multiple startup projects**: API + Web
-
-### 3. Apply database migrations
-- Open **Package Manager Console** in Visual Studio
-```bash
-Update-Database
-```
-
-### 4. Run the solution
-- Press **F5**
-- API will be at: `https://localhost:5001/api/events`
-- Web app will be at: `https://localhost:5002/Events`
+- Local API: `https://localhost:5001/api/events`
+- Local Web: `https://localhost:5002/Events`
 
 ---
 
-## 🌐 Azure Deployment
+## ⚙️ CI/CD with GitHub Actions
 
-| Layer    | Azure App Service              | URL |
-|----------|--------------------------------|-----|
-| API      | `touristbooking-api`           | [API Swagger](https://touristbooking-api.azurewebsites.net/swagger) |
-| Frontend | `touristbooking-web`           | [Frontend Site](https://touristbooking-web.azurewebsites.net/Events) |
-
-### CI/CD via GitHub Actions
-
-- On push to `main`, API and Web projects are built and deployed via:
-  - `.github/workflows/deploy-api.yml`
-  - `.github/workflows/deploy-web.yml`
+- `main` branch triggers deploy for both frontend and backend
+- Azure App Services used for hosting
+- Secure deployment via Azure service principal login
 
 Secrets used:
-- `AZURE_WEBAPP_PUBLISH_PROFILE` (for API)
-- `AZURE_WEBAPP_WEB_PUBLISH_PROFILE` (for frontend)
+- `AZURE_CREDENTIALS` (JSON for SPN login)
+- `ApiBaseUrl` configured per environment
 
 ---
 
-## 📸 Screenshots (Optional)
-_Add UI screenshots or Swagger UI preview here._
+## 📂 Solution Structure
 
----
-
-## 🧩 Future Improvements
-
-- Add Update/Delete UI in frontend
-- Add authentication (ASP.NET Identity or JWT)
-- Add input validation and model annotations
-- Switch to Angular/React frontend (optional)
-
----
-
-## 📜 License
-This project is licensed under the MIT License.
+```
+TouristBookingPlatform/
+├── TouristBookingPlatform.sln
+├── TouristBookingPlatform.API/       # Web API
+├── TouristBookingPlatform.Web/       # MVC frontend
+├── .github/workflows/                # CI/CD pipelines
+└── README.md
+```
 
 ---
 
 ## 👤 Author
 
-**Your Name**  
-GitHub: [@yourusername](https://github.com/yourusername)  
-Email: your.email@example.com
+**Dmytro Davidenko**  
+📧 dimitrdavidenko@gmail.com  
+📍 Bansko, Bulgaria  
+🔗 [LinkedIn](https://www.linkedin.com/in/dmytro-davidenko/)  
+🔗 [GitHub](https://github.com/Dima-Davidenko/TouristBookingPlatform)
+
+---
+
+## 📜 License
+
+This project is licensed under the MIT License.

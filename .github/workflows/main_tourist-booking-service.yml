@@ -1,0 +1,61 @@
+name: Deploy API and Web to Azure
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.x'
+
+    # Restore and build both projects
+    - name: Restore dependencies
+      run: |
+        dotnet restore TouristBookingPlatform.API
+        dotnet restore TouristBookingPlatform.Web
+
+    - name: Build
+      run: |
+        dotnet build TouristBookingPlatform.API --configuration Release --no-restore
+        dotnet build TouristBookingPlatform.Web --configuration Release --no-restore
+
+    # Publish backend API
+    - name: Publish API
+      run: dotnet publish TouristBookingPlatform.API --configuration Release --output publish_output_api
+
+    # Publish frontend Web
+    - name: Publish Web
+      run: dotnet publish TouristBookingPlatform.Web --configuration Release --output publish_output_web
+
+    # Azure Login (Service Principal preferred)
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    # Deploy backend API
+    - name: Deploy API to Azure Web App
+      uses: azure/webapps-deploy@v3
+      with:
+        app-name: 'tourist-booking-service'
+        slot-name: 'Production'
+        package: publish_output_api
+
+    # Deploy frontend Web
+    - name: Deploy Web to Azure Web App
+      uses: azure/webapps-deploy@v3
+      with:
+        app-name: 'tourist-booking-web-service'  
+        slot-name: 'Production'
+        package: publish_output_web

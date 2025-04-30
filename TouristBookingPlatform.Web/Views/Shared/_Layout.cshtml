@@ -35,40 +35,37 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
+                        <!-- General nav items -->
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Events" asp-action="Index">Events</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">Admin</a>
-                        </li>
-
-                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Project" asp-action="About">About Project</a>
                         </li>
 
+                        <!-- Divider -->
+                        <li class="nav-item d-none d-sm-block">
+                            <span class="nav-link disabled px-0 mx-2 border-start" style="height: 100%;"></span>
+                        </li>
+
+                        <!-- Authenticated nav items -->
+                        <li class="nav-item ms-3">
+                            <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">Admin Panel</a>
+                        </li>
                         @if (User.Identity?.IsAuthenticated == true)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">Logout</a>
                             </li>
                         }
-
                     </ul>
+
                 </div>
+
             </div>
         </nav>
     </header>
-    <div class="d-flex justify-content-center pb-4">
-        <div style="position: relative; width: 100%; max-width: 800px; height: 200px;">
-            <iframe allow="fullscreen; autoplay"
-                    allowfullscreen
-                    allowautoplay
-                    src="//webtv.feratel.com/webtv/?design=v5&amp;sound=muted&amp;pg=DA7D2F22-8600-464D-9D4F-CDB04014A6C5&amp;cam=75501&amp;lg=en&amp;c1=0&amp;flc=1&amp;c24=0"
-                    class="position-absolute top-0 start-0 w-100 h-100 border rounded shadow"
-                    frameborder="0">
-            </iframe>
-        </div>
-    </div>
+    
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

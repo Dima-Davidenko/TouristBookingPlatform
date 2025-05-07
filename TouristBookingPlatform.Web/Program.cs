@@ -14,9 +14,46 @@ builder.Services.AddAuthentication("CookieAuth")
 
 builder.Services.AddAuthorization();
 
-
+// Add HttpClient specifically for backend pinging to wake up free db instance
+builder.Services.AddHttpClient("HealthClient");
 
 var app = builder.Build();
+
+
+// Middleware to ping the backend and set a cookie
+app.Use(async (context, next) =>
+{
+    var cookieName = "LastHealthCheck";
+    var cookieValue = context.Request.Cookies[cookieName];
+
+    if (string.IsNullOrEmpty(cookieValue))
+    {
+        // Cookie is missing or expired
+        var httpClientFactory = context.RequestServices.GetRequiredService<IHttpClientFactory>();
+        var client = httpClientFactory.CreateClient("HealthClient");
+
+        try
+        {
+            await client.SendAsync(new HttpRequestMessage(HttpMethod.Head, "https://tourist-booking-service.azurewebsites.net/health"));
+        }
+        catch
+        {
+            // Silently fail to avoid interrupting user experience
+        }
+
+        // Set cookie for 10 minutes
+        context.Response.Cookies.Append(cookieName, DateTime.UtcNow.ToString(), new CookieOptions
+        {
+            Expires = DateTimeOffset.UtcNow.AddMinutes(10),
+            HttpOnly = true,
+            Secure = true,
+            SameSite = SameSiteMode.Strict
+        });
+    }
+
+    await next();
+});
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

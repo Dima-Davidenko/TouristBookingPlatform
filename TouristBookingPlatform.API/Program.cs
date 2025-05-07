@@ -25,18 +25,18 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapMethods("/health", new[] { "HEAD", "GET" }, async (AppDbContext db, HttpContext context) =>
-{
-    try
-    {
-        var any = await db.Events.AnyAsync();
-        return Results.Ok();
-    }
-    catch (Exception ex)
-    {
-        return Results.StatusCode(503);
-    }
-});
+//app.MapMethods("/health", new[] { "HEAD", "GET" }, async (AppDbContext db, HttpContext context) =>
+//{
+//    try
+//    {
+//        var any = await db.Events.AnyAsync();
+//        return Results.Ok();
+//    }
+//    catch (Exception ex)
+//    {
+//        return Results.StatusCode(503);
+//    }
+//});
 
 
 app.Run();
